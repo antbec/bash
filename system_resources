@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# var to check disk space of /
+diskSpace=$(df -m / | grep % | grep / | awk '{ print $3 }')
+diskAvail=0
+
+# var to check free memory
+freeMem=$(free -m | grep Mem: | awk '{ print $4 }')
+memAvail=0
+
+# checks if disk is below 3000 mb
+if [ $diskSpace -lt 3000 ];
+then
+        echo "WARNING LOW DISK AVAILABLE! ($diskSpace MB)"
+        diskAvail=0
+
+else
+        echo "Disk OK! ($diskSpace MB)"
+        diskAvail=1
+fi
+
+# checks if memory is less than 512 mb
+if [ $freeMem -lt 512 ];
+then
+        echo "WARNING LOW MEMORY AVAILABLE! ($freeMem MB)"
+        memAvail=0
+else
+        echo "Memory OK! ($freeMem MB)"
+        memAvail=1
+fi
+
+echo "Exiting...."
