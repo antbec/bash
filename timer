@@ -1,0 +1,39 @@
+#!/bin/bash
+# timer script that asks the user for time to countdown
+
+echo -e "Select time \nEnter minutes"
+read minutes
+# error handling for $minutes
+while [[ ! $minutes =~ -?[0-9]+ ]];
+do
+	echo "The answer need to be a number. Please enter minutes again."
+	read minutes
+done
+
+echo "Enter seconds"
+read seconds
+# error handling for $seconds
+while [[ ! $seconds =~ -?[0-9]+ ]] || [[ $seconds > 60 ]];
+do
+	echo "The answer need to be between 0-59. Please enter seconds again."
+	read seconds
+done
+
+echo ""
+# calculates total time to seconds for the for loop to iterate through
+time=$(($minutes * 60 + $seconds ))
+for (( i=$time ; i>0 ; i-- ));
+do
+	clear
+	#prints time if > 59 sec
+	if [[ $i -gt 59 ]];
+	then 
+		minutes=$(($i / 60))
+		seconds=$(($i % 60))
+		printf "%d:%02d\n" $minutes $seconds
+	else
+		printf "0:%02d\n" $i
+	fi
+	sleep 1
+done
+echo "Time is up!"
